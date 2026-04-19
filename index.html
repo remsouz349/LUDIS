@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUDIS – Fichiers Excel & Cours</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FAFAF8;
+    --surface: #FFFFFF;
+    --accent: #1D9E75;
+    --accent-light: #E1F5EE;
+    --accent-dark: #0F6E56;
+    --text: #1A1A18;
+    --muted: #6B6B66;
+    --border: rgba(0,0,0,0.08);
+    --radius: 14px;
+    --font-head: 'DM Serif Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 6vw;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 66px;
+  }
+  .logo { font-family: var(--font-head); font-size: 24px; letter-spacing: 0.03em; }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 36px; font-size: 14px; color: var(--muted); }
+  .nav-links a { transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--text); color: #fff;
+    padding: 9px 22px; border-radius: 9px;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer; border: none;
+    font-family: var(--font-body);
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent-dark); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 110px 6vw 90px;
+    max-width: 1160px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 72px; align-items: center;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--accent-light); color: var(--accent-dark);
+    padding: 5px 16px; border-radius: 100px;
+    font-size: 13px; font-weight: 500; margin-bottom: 26px;
+  }
+  .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(38px, 4.2vw, 56px);
+    line-height: 1.12; margin-bottom: 22px;
+  }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero p { color: var(--muted); font-size: 17px; line-height: 1.75; margin-bottom: 38px; max-width: 440px; }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    padding: 13px 30px; border-radius: 10px;
+    font-weight: 500; cursor: pointer; border: none;
+    font-size: 15px; font-family: var(--font-body);
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    padding: 13px 30px; border-radius: 10px;
+    font-weight: 500; cursor: pointer;
+    border: 1.5px solid var(--border);
+    font-size: 15px; font-family: var(--font-body);
+    transition: border-color 0.2s;
+  }
+  .btn-secondary:hover { border-color: rgba(0,0,0,0.3); }
+
+  /* ── HERO CARD ── */
+  .hero-visual { position: relative; }
+  .hero-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.07);
+    animation: floatCard 5s ease-in-out infinite;
+  }
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .hero-card-top { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+  .excel-icon {
+    width: 44px; height: 44px; background: #1D6F42;
+    border-radius: 9px; display: flex; align-items: center;
+    justify-content: center; color: white;
+    font-size: 20px; font-weight: 700; flex-shrink: 0;
+  }
+  .hero-card h3 { font-size: 15px; font-weight: 500; }
+  .hero-card .sub { font-size: 13px; color: var(--muted); }
+  .bar-row { margin-bottom: 11px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+  .bar-bg { background: #f0f0ec; border-radius: 4px; height: 7px; }
+  .bar-fill { height: 7px; border-radius: 4px; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+  .badge { background: var(--accent-light); color: var(--accent-dark); padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 500; }
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .stat { text-align: center; background: var(--bg); border-radius: 9px; padding: 12px 8px; }
+  .stat-num { font-size: 21px; font-weight: 600; color: var(--accent); }
+  .stat-label { font-size: 11px; color: var(--muted); }
+
+  /* ── SECTION BASE ── */
+  .section-wrap { padding: 90px 6vw; max-width: 1160px; margin: 0 auto; }
+  .section-label { font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .section-title { font-family: var(--font-head); font-size: clamp(28px, 3vw, 40px); margin-bottom: 12px; }
+  .section-sub { color: var(--muted); max-width: 520px; font-size: 16px; margin-bottom: 52px; line-height: 1.7; }
+
+  /* ── PRODUITS ── */
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .product-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 26px;
+    cursor: pointer; transition: box-shadow 0.25s, transform 0.25s;
+    position: relative; overflow: hidden; display: flex; flex-direction: column;
+  }
+  .product-card:hover { box-shadow: 0 10px 40px rgba(0,0,0,0.10); transform: translateY(-3px); }
+  .product-card.featured { border-color: var(--accent); border-width: 1.5px; }
+  .product-card.featured-blue { border-color: #378ADD; border-width: 1.5px; }
+  .featured-pill {
+    position: absolute; top: 18px; right: 18px;
+    padding: 3px 12px; border-radius: 100px;
+    font-size: 11px; font-weight: 500;
+  }
+  .pill-green { background: var(--accent); color: white; }
+  .pill-blue { background: #378ADD; color: white; }
+  .product-icon {
+    width: 50px; height: 50px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px; font-size: 24px;
+  }
+  .icon-green { background: var(--accent-light); }
+  .icon-blue { background: #E6F1FB; }
+  .icon-amber { background: #FAEEDA; }
+  .product-title { font-size: 17px; font-weight: 500; margin-bottom: 8px; }
+  .product-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 20px; flex: 1; }
+  .product-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+  .price { font-size: 22px; font-weight: 600; }
+  .price-old { font-size: 14px; color: var(--muted); text-decoration: line-through; margin-left: 8px; font-weight: 400; }
+  .buy-btn {
+    display: inline-block;
+    padding: 9px 20px; border-radius: 9px;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; border: none;
+    font-family: var(--font-body);
+    transition: all 0.2s; text-decoration: none;
+    text-align: center;
+  }
+  .buy-btn-green { background: var(--accent-light); color: var(--accent-dark); }
+  .buy-btn-green:hover { background: var(--accent); color: white; }
+  .buy-btn-blue { background: #E6F1FB; color: #185FA5; }
+  .buy-btn-blue:hover { background: #378ADD; color: white; }
+
+  /* ── FEATURES ── */
+  .features-bg { background: var(--surface); }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .feature {
+    padding: 26px; background: var(--bg);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    transition: box-shadow 0.2s;
+  }
+  .feature:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .feature-icon { font-size: 26px; margin-bottom: 14px; }
+  .feature h4 { font-size: 15px; font-weight: 500; margin-bottom: 7px; }
+  .feature p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── AVIS ── */
+  .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .review {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 26px;
+  }
+  .stars { color: #F59E0B; font-size: 15px; margin-bottom: 14px; }
+  .review-text { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 18px; font-style: italic; }
+  .reviewer { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 500; color: var(--accent-dark);
+    flex-shrink: 0;
+  }
+  .reviewer-name { font-size: 14px; font-weight: 500; }
+  .reviewer-role { font-size: 12px; color: var(--muted); }
+
+  /* ── CTA FINAL ── */
+  .cta-block {
+    background: var(--text); border-radius: 22px;
+    padding: 72px 6vw; text-align: center;
+    margin: 0 4vw 90px;
+  }
+  .cta-block h2 { font-family: var(--font-head); font-size: clamp(30px, 3.5vw, 46px); color: white; margin-bottom: 16px; }
+  .cta-block p { color: rgba(255,255,255,0.55); margin-bottom: 36px; font-size: 16px; }
+  .btn-white {
+    background: white; color: var(--text);
+    padding: 14px 40px; border-radius: 11px;
+    font-weight: 500; cursor: pointer; border: none;
+    font-size: 16px; font-family: var(--font-body);
+    transition: opacity 0.2s;
+  }
+  .btn-white:hover { opacity: 0.88; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 6vw;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--muted); font-size: 13px; flex-wrap: wrap; gap: 14px;
+  }
+  .footer-links { display: flex; gap: 28px; }
+  .footer-links a:hover { color: var(--text); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 28px; right: 28px;
+    background: var(--text); color: white;
+    padding: 14px 24px; border-radius: 11px;
+    font-size: 14px; font-family: var(--font-body);
+    transform: translateY(90px); opacity: 0;
+    transition: all 0.32s cubic-bezier(.34,1.56,.64,1);
+    z-index: 999; pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; gap: 48px; padding: 70px 6vw 50px; }
+    .hero-visual { display: none; }
+    .nav-links { display: none; }
+    .cta-block { padding: 48px 6vw; margin: 0 4vw 60px; }
+  }
+
+  /* ── FADE IN ── */
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav>
+  <div class="logo">LUD<span>IS</span></div>
+  <div class="nav-links">
+    <a href="#produits">Produits</a>
+    <a href="#avantages">Avantages</a>
+    <a href="#avis">Avis clients</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('produits').scrollIntoView({behavior:'smooth'})">Voir les fichiers →</button>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <div class="fade-up">
+    <div class="hero-tag">Excel · Finance · Bureautique</div>
+    <h1>Maîtrisez <em>Excel</em> et la finance avec des outils concrets</h1>
+    <p>Des fichiers Excel prêts à l'emploi avec cours intégrés — conçus pour apprendre en faisant, pas en lisant.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('produits').scrollIntoView({behavior:'smooth'})">Découvrir les fichiers</button>
+      <button class="btn-secondary" onclick="document.getElementById('avantages').scrollIntoView({behavior:'smooth'})">Comment ça marche ?</button>
+    </div>
+  </div>
+  <div class="hero-visual fade-up" style="transition-delay: 0.15s;">
+    <div class="hero-card">
+      <div class="hero-card-top">
+        <div class="excel-icon">X</div>
+        <div>
+          <h3>Tableau de bord financier</h3>
+          <div class="sub">Inclus dans le Pack Finance</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Revenus</span><span>87%</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:87%; background:#1D9E75;"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Charges</span><span>54%</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:54%; background:#378ADD;"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Bénéfice net</span><span>33%</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:33%; background:#EF9F27;"></div></div>
+      </div>
+      <div class="badge-row">
+        <span class="badge">Tableaux croisés</span>
+        <span class="badge">Macros VBA</span>
+        <span class="badge">Graphiques</span>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-num">12</div><div class="stat-label">fichiers</div></div>
+        <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">note</div></div>
+        <div class="stat"><div class="stat-num">850+</div><div class="stat-label">clients</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PRODUITS ═══════════ -->
+<section id="produits">
+  <div class="section-wrap">
+    <div class="section-label fade-up">Catalogue</div>
+    <div class="section-title fade-up">Nos fichiers Excel avec cours</div>
+    <div class="section-sub fade-up">Chaque fichier inclut un cours structuré directement intégré. Téléchargez, ouvrez, apprenez.</div>
+
+    <div class="products-grid">
+
+      <!-- PRODUIT 1 — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card featured fade-up">
+        <span class="featured-pill pill-green">Populaire</span>
+        <div class="product-icon icon-green">📊</div>
+        <div class="product-title">Pack Finance Complète</div>
+        <div class="product-desc">Tableaux de bord, analyse de trésorerie, compte de résultat, bilan — avec cours intégrés à chaque onglet.</div>
+        <div class="product-footer">
+          <div><span class="price">29€</span><span class="price-old">49€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/fdgsvi" target="_blank" class="buy-btn buy-btn-green">Acheter →</a>
+        </div>
+      </div>
+
+      <!-- PRODUIT 2 — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card fade-up">
+        <div class="product-icon icon-blue">📈</div>
+        <div class="product-title">Maîtrise Excel — Niveau 1</div>
+        <div class="product-desc">Formules essentielles, mise en forme, tri et filtres. Idéal pour les débutants qui veulent progresser vite.</div>
+        <div class="product-footer">
+          <div><span class="price">15€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/tcaafy" target="_blank" class="buy-btn buy-btn-green">Acheter →</a>
+        </div>
+      </div>
+
+      <!-- PRODUIT 3 — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card fade-up">
+        <div class="product-icon icon-amber">💼</div>
+        <div class="product-title">Tableaux Croisés Dynamiques</div>
+        <div class="product-desc">Analyse de données avancée avec TCD, segments, chronologies et graphiques croisés dynamiques.</div>
+        <div class="product-footer">
+          <div><span class="price">19€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/xvjzca" target="_blank" class="buy-btn buy-btn-green">Acheter →</a>
+        </div>
+      </div>
+
+      <!-- PRODUIT 4 — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card fade-up">
+        <div class="product-icon icon-green">🏦</div>
+        <div class="product-title">Gestion Budgétaire</div>
+        <div class="product-desc">Suivez vos budgets mensuels, prévisions et écarts avec formules automatiques et cours détaillés.</div>
+        <div class="product-footer">
+          <div><span class="price">22€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/zmzbgq" target="_blank" class="buy-btn buy-btn-green">Acheter →</a>
+        </div>
+      </div>
+
+      <!-- PRODUIT 5 — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card fade-up">
+        <div class="product-icon icon-blue">⚡</div>
+        <div class="product-title">Macros & Automatisation VBA</div>
+        <div class="product-desc">Introduction au VBA, enregistreur de macros, automatisation des tâches répétitives avec exemples pratiques.</div>
+        <div class="product-footer">
+          <div><span class="price">25€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/blekhi" target="_blank" class="buy-btn buy-btn-green">Acheter →</a>
+        </div>
+      </div>
+
+      <!-- PRODUIT 6 BUNDLE — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card featured-blue fade-up">
+        <span class="featured-pill pill-blue">Bundle</span>
+        <div class="product-icon icon-blue">🎯</div>
+        <div class="product-title">Pack Intégral LUDIS</div>
+        <div class="product-desc">Accès à tous nos fichiers actuels et futurs. La solution complète pour progresser en Excel et en finance.</div>
+        <div class="product-footer">
+          <div><span class="price">69€</span><span class="price-old">110€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/fdgsvi" target="_blank" class="buy-btn buy-btn-blue">Acheter →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ AVANTAGES ═══════════ -->
+<section id="avantages" class="features-bg">
+  <div class="section-wrap">
+    <div class="section-label fade-up">Pourquoi LUDIS</div>
+    <div class="section-title fade-up">Apprendre en faisant, pas en regardant</div>
+    <div class="section-sub fade-up">Nos fichiers ne sont pas des modèles vides — ce sont des cours vivants que vous manipulez directement.</div>
+    <div class="features-grid">
+      <div class="feature fade-up">
+        <div class="feature-icon">📥</div>
+        <h4>Téléchargement instantané</h4>
+        <p>Après paiement, votre fichier arrive immédiatement par email. Aucune attente, aucune inscription supplémentaire.</p>
+      </div>
+      <div class="feature fade-up">
+        <div class="feature-icon">🎓</div>
+        <h4>Cours intégrés</h4>
+        <p>Chaque onglet contient des explications pédagogiques claires, directement dans le fichier Excel.</p>
+      </div>
+      <div class="feature fade-up">
+        <div class="feature-icon">🔄</div>
+        <h4>Mises à jour incluses</h4>
+        <p>Vous recevez gratuitement toutes les améliorations futures du fichier acheté, à vie.</p>
+      </div>
+      <div class="feature fade-up">
+        <div class="feature-icon">💬</div>
+        <h4>Support inclus</h4>
+        <p>Des questions ? Réponse sous 24h par email pour vous aider à tirer le meilleur de vos fichiers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ AVIS ═══════════ -->
+<section id="avis">
+  <div class="section-wrap">
+    <div class="section-label fade-up">Témoignages</div>
+    <div class="section-title fade-up">Ce qu'en disent nos clients</div>
+    <div class="section-sub fade-up">Plus de 850 personnes ont déjà utilisé nos fichiers pour progresser.</div>
+    <div class="reviews-grid">
+      <div class="review fade-up">
+        <div class="stars">★★★★★</div>
+        <div class="review-text">Le pack Finance est vraiment complet. J'ai pu créer le tableau de bord de mon entreprise en une après-midi grâce aux cours intégrés.</div>
+        <div class="reviewer">
+          <div class="avatar">SM</div>
+          <div><div class="reviewer-name">Sophie M.</div><div class="reviewer-role">Comptable indépendante</div></div>
+        </div>
+      </div>
+      <div class="review fade-up">
+        <div class="stars">★★★★★</div>
+        <div class="review-text">Enfin des fichiers Excel avec de vraies explications ! Le cours sur les tableaux croisés m'a sauvé des heures de recherche.</div>
+        <div class="reviewer">
+          <div class="avatar">TK</div>
+          <div><div class="reviewer-name">Thomas K.</div><div class="reviewer-role">Étudiant en BTS</div></div>
+        </div>
+      </div>
+      <div class="review fade-up">
+        <div class="stars">★★★★☆</div>
+        <div class="review-text">Très bon rapport qualité-prix. Le pack intégral vaut vraiment le coup, j'utilise les fichiers au quotidien dans mon cabinet.</div>
+        <div class="reviewer">
+          <div class="avatar">AL</div>
+          <div><div class="reviewer-name">Amina L.</div><div class="reviewer-role">Gestionnaire RH</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<div class="cta-block fade-up">
+  <h2>Prêt à progresser avec Excel ?</h2>
+  <p>Rejoignez plus de 850 apprenants qui ont déjà transformé leur utilisation d'Excel.</p>
+  <button class="btn-white" onclick="document.getElementById('produits').scrollIntoView({behavior:'smooth'})">Voir tous les fichiers →</button>
+</div>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact">
+  <div class="section-wrap" style="padding-top: 20px; padding-bottom: 60px;">
+    <div class="section-label fade-up">Contact</div>
+    <div class="section-title fade-up" style="margin-bottom: 8px;">Une question ?</div>
+    <!-- ✏️ REMPLACEZ PAR VOTRE VRAIE ADRESSE EMAIL -->
+    <p class="fade-up" style="color: var(--muted); font-size: 16px;">Écrivez-nous à <a href="mailto:remyclaveau@gmail.com" style="color: var(--accent); font-weight: 500;">remyclaveau@gmail.com</a> — réponse sous 24h.</p>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="logo" style="font-size: 20px;">LUD<span style="color: var(--accent);">IS</span></div>
+  <div class="footer-links">
+    <a href="#">Mentions légales</a>
+    <a href="#">CGV</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div>© 2025 LUDIS. Tous droits réservés.</div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Fade-in au scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
