@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUDIS – Fichiers Excel & Cours</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #FAFAF8;
+    --surface: #FFFFFF;
+    --accent: #1D9E75;
+    --accent-light: #E1F5EE;
+    --accent-dark: #0F6E56;
+    --text: #1A1A18;
+    --muted: #6B6B66;
+    --border: rgba(0,0,0,0.08);
+    --radius: 14px;
+    --font-head: 'DM Serif Display', serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+
+  [data-theme="dark"] {
+    --bg: #111110;
+    --surface: #1C1C1A;
+    --accent: #22C58B;
+    --accent-light: #0D2E22;
+    --accent-dark: #7EEFC7;
+    --text: #F0F0EC;
+    --muted: #8A8A84;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 6vw;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 66px;
+    transition: background 0.3s;
+  }
+  [data-theme="dark"] nav {
+    background: rgba(17,17,16,0.92);
+  }
+  .logo { font-family: var(--font-head); font-size: 24px; letter-spacing: 0.03em; }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 36px; font-size: 14px; color: var(--muted); }
+  .nav-links a { transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    background: var(--text); color: #fff;
+    padding: 9px 22px; border-radius: 9px;
+    font-size: 14px; font-weight: 500;
+    cursor: pointer; border: none;
+    font-family: var(--font-body);
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent-dark); }
+  [data-theme="dark"] .nav-cta { background: var(--accent); color: #fff; }
+  [data-theme="dark"] .nav-cta:hover { background: #0F6E56; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 110px 6vw 90px;
+    max-width: 1160px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 72px; align-items: center;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: var(--accent-light); color: var(--accent-dark);
+    padding: 5px 16px; border-radius: 100px;
+    font-size: 13px; font-weight: 500; margin-bottom: 26px;
+  }
+  .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+  .hero h1 {
+    font-family: var(--font-head);
+    font-size: clamp(38px, 4.2vw, 56px);
+    line-height: 1.12; margin-bottom: 22px;
+  }
+  .hero h1 em { color: var(--accent); font-style: normal; }
+  .hero p { color: var(--muted); font-size: 17px; line-height: 1.75; margin-bottom: 38px; max-width: 440px; }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent); color: #fff;
+    padding: 13px 30px; border-radius: 10px;
+    font-weight: 500; cursor: pointer; border: none;
+    font-size: 15px; font-family: var(--font-body);
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .btn-secondary {
+    background: transparent; color: var(--text);
+    padding: 13px 30px; border-radius: 10px;
+    font-weight: 500; cursor: pointer;
+    border: 1.5px solid var(--border);
+    font-size: 15px; font-family: var(--font-body);
+    transition: border-color 0.2s;
+  }
+  .btn-secondary:hover { border-color: rgba(0,0,0,0.3); }
+
+  /* ── HERO CARD ── */
+  .hero-visual { position: relative; }
+  .hero-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.07);
+    animation: floatCard 5s ease-in-out infinite;
+  }
+  @keyframes floatCard {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .hero-card-top { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+  .excel-icon {
+    width: 44px; height: 44px; background: #1D6F42;
+    border-radius: 9px; display: flex; align-items: center;
+    justify-content: center; color: white;
+    font-size: 20px; font-weight: 700; flex-shrink: 0;
+  }
+  .hero-card h3 { font-size: 15px; font-weight: 500; }
+  .hero-card .sub { font-size: 13px; color: var(--muted); }
+  .bar-row { margin-bottom: 11px; }
+  .bar-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+  .bar-bg { background: #f0f0ec; border-radius: 4px; height: 7px; }
+  .bar-fill { height: 7px; border-radius: 4px; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+  .badge { background: var(--accent-light); color: var(--accent-dark); padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 500; }
+  .stats-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .stat { text-align: center; background: var(--bg); border-radius: 9px; padding: 12px 8px; }
+  .stat-num { font-size: 21px; font-weight: 600; color: var(--accent); }
+  .stat-label { font-size: 11px; color: var(--muted); }
+
+  /* ── SECTION BASE ── */
+  .section-wrap { padding: 90px 6vw; max-width: 1160px; margin: 0 auto; }
+  .section-label { font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+  .section-title { font-family: var(--font-head); font-size: clamp(28px, 3vw, 40px); margin-bottom: 12px; }
+  .section-sub { color: var(--muted); max-width: 520px; font-size: 16px; margin-bottom: 52px; line-height: 1.7; }
+
+  /* ── PRODUITS ── */
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .product-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 26px;
+    cursor: pointer; transition: box-shadow 0.25s, transform 0.25s;
+    position: relative; overflow: hidden; display: flex; flex-direction: column;
+  }
+  .product-card:hover { box-shadow: 0 10px 40px rgba(0,0,0,0.10); transform: translateY(-3px); }
+  .product-card.featured { border-color: var(--accent); border-width: 1.5px; }
+  .product-card.featured-blue { border-color: #378ADD; border-width: 1.5px; }
+  .featured-pill {
+    position: absolute; top: 18px; right: 18px;
+    padding: 3px 12px; border-radius: 100px;
+    font-size: 11px; font-weight: 500;
+  }
+  .pill-green { background: var(--accent); color: white; }
+  .pill-blue { background: #378ADD; color: white; }
+  .product-icon {
+    width: 50px; height: 50px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px; font-size: 24px;
+  }
+  .icon-green { background: var(--accent-light); }
+  .icon-blue { background: #E6F1FB; }
+  .icon-amber { background: #FAEEDA; }
+  .product-title { font-size: 17px; font-weight: 500; margin-bottom: 8px; }
+  .product-desc { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 20px; flex: 1; }
+  .product-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+  .price { font-size: 22px; font-weight: 600; }
+  .price-old { font-size: 14px; color: var(--muted); text-decoration: line-through; margin-left: 8px; font-weight: 400; }
+  .buy-btn {
+    display: inline-block;
+    padding: 9px 20px; border-radius: 9px;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; border: none;
+    font-family: var(--font-body);
+    transition: all 0.2s; text-decoration: none;
+    text-align: center;
+  }
+  .buy-btn-green { background: var(--accent-light); color: var(--accent-dark); }
+  .buy-btn-green:hover { background: var(--accent); color: white; }
+  .buy-btn-blue { background: #E6F1FB; color: #185FA5; }
+  .buy-btn-blue:hover { background: #378ADD; color: white; }
+
+  /* ── FEATURES ── */
+  .features-bg { background: var(--surface); }
+  .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .feature {
+    padding: 26px; background: var(--bg);
+    border: 1px solid var(--border); border-radius: var(--radius);
+    transition: box-shadow 0.2s;
+  }
+  .feature:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .feature-icon { font-size: 26px; margin-bottom: 14px; }
+  .feature h4 { font-size: 15px; font-weight: 500; margin-bottom: 7px; }
+  .feature p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ── AVIS ── */
+  .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .review {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 26px;
+  }
+  .stars { color: #F59E0B; font-size: 15px; margin-bottom: 14px; }
+  .review-text { font-size: 14px; color: var(--muted); line-height: 1.75; margin-bottom: 18px; font-style: italic; }
+  .reviewer { display: flex; align-items: center; gap: 12px; }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--accent-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 500; color: var(--accent-dark);
+    flex-shrink: 0;
+  }
+  .reviewer-name { font-size: 14px; font-weight: 500; }
+  .reviewer-role { font-size: 12px; color: var(--muted); }
+
+  /* ── CTA FINAL ── */
+  .cta-block {
+    background: var(--text); border-radius: 22px;
+    padding: 72px 6vw; text-align: center;
+    margin: 0 4vw 90px;
+  }
+  .cta-block h2 { font-family: var(--font-head); font-size: clamp(30px, 3.5vw, 46px); color: white; margin-bottom: 16px; }
+  .cta-block p { color: rgba(255,255,255,0.55); margin-bottom: 36px; font-size: 16px; }
+  .btn-white {
+    background: white; color: var(--text);
+    padding: 14px 40px; border-radius: 11px;
+    font-weight: 500; cursor: pointer; border: none;
+    font-size: 16px; font-family: var(--font-body);
+    transition: opacity 0.2s;
+  }
+  .btn-white:hover { opacity: 0.88; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 6vw;
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--muted); font-size: 13px; flex-wrap: wrap; gap: 14px;
+  }
+  .footer-links { display: flex; gap: 28px; }
+  .footer-links a:hover { color: var(--text); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed; bottom: 28px; right: 28px;
+    background: var(--text); color: white;
+    padding: 14px 24px; border-radius: 11px;
+    font-size: 14px; font-family: var(--font-body);
+    transform: translateY(90px); opacity: 0;
+    transition: all 0.32s cubic-bezier(.34,1.56,.64,1);
+    z-index: 999; pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .hero { grid-template-columns: 1fr; gap: 48px; padding: 70px 6vw 50px; }
+    .hero-visual { display: none; }
+    .nav-links { display: none; }
+    .cta-block { padding: 48px 6vw; margin: 0 4vw 60px; }
+  }
+
+  /* ── FADE IN ── */
+  .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── MODAL ML ── */
+  .modal-overlay-ml {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .modal-overlay-ml.open { opacity: 1; pointer-events: all; }
+  .modal-overlay-ml.open .modal { transform: translateY(0) scale(1); }
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 1000;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: all; }
+  .modal {
+    background: var(--surface);
+    border-radius: 20px;
+    width: 100%; max-width: 760px;
+    max-height: 88vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.18);
+    transform: translateY(20px) scale(0.98);
+    transition: transform 0.25s ease;
+    overflow: hidden;
+  }
+  .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+  .modal-header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-shrink: 0;
+  }
+  .modal-header h2 { font-family: var(--font-head); font-size: 24px; }
+  .modal-header p { font-size: 13px; color: var(--muted); margin-top: 4px; }
+  .modal-close {
+    background: var(--bg); border: 1px solid var(--border);
+    width: 34px; height: 34px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; color: var(--muted);
+    flex-shrink: 0; margin-left: 16px;
+    transition: background 0.2s, color 0.2s;
+  }
+  .modal-close:hover { background: var(--text); color: white; }
+  .modal-body {
+    padding: 28px 32px 32px;
+    overflow-y: auto;
+    font-size: 14px; color: var(--muted); line-height: 1.8;
+  }
+  .modal-body h3 {
+    font-family: var(--font-body); font-size: 14px; font-weight: 600;
+    color: var(--text); margin-top: 24px; margin-bottom: 8px;
+    padding-bottom: 6px; border-bottom: 1px solid var(--border);
+  }
+  .modal-body h3:first-child { margin-top: 0; }
+  .modal-body p { margin-bottom: 10px; }
+  .modal-body ul { padding-left: 18px; margin-bottom: 10px; }
+  .modal-body ul li { margin-bottom: 5px; }
+  .modal-body strong { color: var(--text); }
+
+  /* ── PACK INTÉGRAL BANNER ── */
+  .pack-banner {
+    background: var(--text);
+    border-radius: var(--radius);
+    padding: 0;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 20px;
+    border: none;
+    position: relative;
+  }
+  .pack-banner-left {
+    padding: 36px 36px 36px 36px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .pack-banner-right {
+    background: linear-gradient(135deg, #0F6E56 0%, #1D9E75 100%);
+    padding: 32px 28px;
+    display: flex; flex-direction: column; gap: 11px;
+  }
+  .pack-super-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent); color: #fff;
+    padding: 5px 14px; border-radius: 100px;
+    font-size: 12px; font-weight: 500;
+    margin-bottom: 14px; width: fit-content;
+  }
+  .pack-banner-title {
+    font-family: var(--font-head);
+    font-size: clamp(22px, 2.5vw, 32px);
+    color: #fff; line-height: 1.15; margin-bottom: 12px;
+  }
+  .pack-banner-desc { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.65; margin-bottom: 24px; }
+  .pack-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+  .pack-tag {
+    background: rgba(29,158,117,0.2); color: #7EEFC7;
+    border: 1px solid rgba(29,158,117,0.3);
+    padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 500;
+  }
+  .pack-price-row { display: flex; align-items: center; gap: 14px; }
+  .pack-price { font-size: 38px; font-weight: 700; color: #fff; line-height: 1; }
+  .pack-price-old { font-size: 15px; color: rgba(255,255,255,0.4); text-decoration: line-through; }
+  .pack-buy-btn {
+    background: var(--accent); color: #fff;
+    padding: 13px 28px; border-radius: 10px;
+    font-size: 15px; font-weight: 500;
+    text-decoration: none; display: inline-block;
+    font-family: var(--font-body);
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+  .pack-buy-btn:hover { background: var(--accent-dark); transform: translateY(-1px); }
+  .pack-item {
+    display: flex; align-items: flex-start; gap: 11px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px; padding: 10px 14px;
+  }
+  .pack-item-icon { font-size: 18px; flex-shrink: 0; }
+  .pack-item-title { font-size: 13px; font-weight: 500; color: #fff; }
+  .pack-item-desc { font-size: 11.5px; color: rgba(255,255,255,0.55); }
+  .pack-right-label {
+    font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.5);
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px;
+  }
+
+  /* ── CLASSEMENT LEADERBOARD ── */
+  .ranking-section { background: var(--surface); }
+
+  .lb-filter {
+    background: var(--bg); color: var(--muted);
+    border: 1px solid var(--border); border-radius: 100px;
+    padding: 7px 18px; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: var(--font-body);
+    transition: all 0.2s;
+  }
+  .lb-filter:hover { border-color: var(--accent); color: var(--accent-dark); }
+  .lb-filter.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .ranking-table { width: 100%; border-collapse: collapse; }
+  .ranking-table thead tr { border-bottom: 2px solid var(--border); }
+  .ranking-table th { padding: 12px 16px; text-align: left; font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; }
+  .ranking-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; }
+  .ranking-table tbody tr:hover { background: var(--bg); }
+  .ranking-table tbody tr.top1 { background: #FFFBEB; }
+  .ranking-table tbody tr.top2 { background: #F8F8F8; }
+  .ranking-table tbody tr.top3 { background: #FFF6F0; }
+  .ranking-table td { padding: 14px 16px; font-size: 14px; vertical-align: middle; }
+
+  .rank-pos { font-family: var(--font-head); font-size: 20px; text-align: center; width: 44px; }
+  .lb-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; flex-shrink: 0;
+    color: #fff;
+  }
+  .lb-name { font-weight: 500; color: var(--text); font-size: 14px; }
+  .lb-joined { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .lb-file-pill {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: var(--bg); border: 1px solid var(--border);
+    padding: 4px 10px; border-radius: 100px; font-size: 12px; color: var(--muted);
+  }
+  .lb-score { font-size: 18px; font-weight: 700; color: var(--text); }
+  .lb-score-bar { margin-top: 4px; }
+  .lb-bar-bg { background: var(--bg); border-radius: 3px; height: 4px; width: 80px; }
+  .lb-bar-fill { height: 4px; border-radius: 3px; }
+  .lb-badge {
+    display: inline-block; padding: 3px 9px; border-radius: 100px;
+    font-size: 11px; font-weight: 500; margin: 2px;
+  }
+  .lbb-gold { background: #FFF3CD; color: #92660A; }
+  .lbb-speed { background: #E6F1FB; color: #185FA5; }
+  .lbb-perfect { background: var(--accent-light); color: var(--accent-dark); }
+  .lbb-first { background: #F3E8FF; color: #6B21A8; }
+  .lb-time { font-size: 13px; color: var(--muted); text-align: right; white-space: nowrap; }
+
+  @media (max-width: 768px) {
+    .ranking-table th:nth-child(5), .ranking-table td:nth-child(5),
+    .ranking-table th:nth-child(6), .ranking-table td:nth-child(6) { display: none; }
+  }
+
+  /* ── DARK MODE TOGGLE ── */
+  .theme-toggle {
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 100px; padding: 6px 14px;
+    display: flex; align-items: center; gap: 7px;
+    cursor: pointer; font-size: 13px; font-weight: 500;
+    color: var(--muted); font-family: var(--font-body);
+    transition: all 0.2s; margin-right: 12px;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--text); }
+  .theme-toggle .toggle-icon { font-size: 15px; transition: transform 0.4s; }
+
+  /* ── DÉFIS EN COURS ── */
+  .challenges-section { background: var(--bg); }
+  .challenges-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+
+  .challenge-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.25s, transform 0.25s;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .challenge-card:hover { box-shadow: 0 10px 40px rgba(0,0,0,0.12); transform: translateY(-3px); }
+  .challenge-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .challenge-card.c-green::before { background: linear-gradient(90deg, #1D9E75, #7EEFC7); }
+  .challenge-card.c-blue::before  { background: linear-gradient(90deg, #378ADD, #7BC8FF); }
+  .challenge-card.c-amber::before { background: linear-gradient(90deg, #EF9F27, #F8D080); }
+
+  .challenge-top { display: flex; align-items: center; justify-content: space-between; }
+  .challenge-file-pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 13px; border-radius: 100px;
+    font-size: 12px; font-weight: 500;
+  }
+  .cpill-green { background: var(--accent-light); color: var(--accent-dark); }
+  .cpill-blue  { background: #E6F1FB; color: #185FA5; }
+  .cpill-amber { background: #FAEEDA; color: #924A0A; }
+  [data-theme="dark"] .cpill-blue  { background: #0D2236; color: #7BC8FF; }
+  [data-theme="dark"] .cpill-amber { background: #2A1A05; color: #F8D080; }
+
+  .challenge-live-dot {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; font-weight: 500; color: #E74C3C;
+  }
+  .live-pulse {
+    width: 7px; height: 7px; background: #E74C3C;
+    border-radius: 50%; animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .challenge-title { font-size: 16px; font-weight: 600; color: var(--text); }
+  .challenge-desc  { font-size: 13px; color: var(--muted); line-height: 1.65; }
+
+  .challenge-badges { display: flex; gap: 7px; flex-wrap: wrap; }
+  .challenge-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 13px; border-radius: 100px;
+    font-size: 12px; font-weight: 500; border: 1px solid var(--border);
+    background: var(--bg); color: var(--muted);
+  }
+  .challenge-badge .badge-emoji { font-size: 14px; }
+
+  .challenge-countdown {
+    background: var(--bg); border-radius: 10px;
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .countdown-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
+  .countdown-timer { font-size: 17px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+  .challenge-cta {
+    background: var(--accent); color: #fff;
+    padding: 10px 20px; border-radius: 9px;
+    font-size: 13px; font-weight: 500;
+    text-decoration: none; display: inline-block;
+    font-family: var(--font-body);
+    transition: background 0.2s, transform 0.15s;
+    text-align: center; align-self: flex-start;
+  }
+  .challenge-cta:hover { background: var(--accent-dark); transform: translateY(-1px); }
+
+  /* leaderboard top rows dark mode */
+  [data-theme="dark"] .ranking-table tbody tr.top1 { background: #2A2310; }
+  [data-theme="dark"] .ranking-table tbody tr.top2 { background: #1E1E1C; }
+  [data-theme="dark"] .ranking-table tbody tr.top3 { background: #251810; }
+  [data-theme="dark"] .ranking-table tbody tr:hover { background: rgba(255,255,255,0.04); }
+  [data-theme="dark"] .bar-bg { background: #2A2A28; }
+  [data-theme="dark"] .stat { background: var(--bg); }
+  [data-theme="dark"] .icon-blue  { background: #0D2236; }
+  [data-theme="dark"] .icon-amber { background: #2A1A05; }
+  [data-theme="dark"] .lbb-gold  { background: #2A2010; color: #D4A843; }
+  [data-theme="dark"] .lbb-speed { background: #0D2236; color: #7BC8FF; }
+  [data-theme="dark"] .lbb-first { background: #1E0D35; color: #C084FC; }
+  [data-theme="dark"] .cta-block { background: var(--surface); border: 1px solid var(--border); }
+  [data-theme="dark"] .cta-block h2 { color: var(--text); }
+  [data-theme="dark"] .btn-white { background: var(--accent); color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav>
+  <div class="logo">LUD<span>IS</span></div>
+  <div class="nav-links">
+    <a href="#produits">Produits</a>
+    <a href="#defis">Défis</a>
+    <a href="#classement">Classement</a>
+    <a href="#avantages">Avantages</a>
+    <a href="#avis">Avis clients</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" aria-label="Changer le thème">
+    <span class="toggle-icon" id="theme-icon">🌙</span>
+    <span id="theme-label">Dark</span>
+  </button>
+  <button class="nav-cta" onclick="document.getElementById('produits').scrollIntoView({behavior:'smooth'})">Voir les fichiers →</button>
+</nav>
+
+<!-- ═══════════ HERO ═══════════ -->
+<div class="hero">
+  <div class="fade-up">
+    <div class="hero-tag">Excel · Finance · Bureautique</div>
+    <h1>Maîtrisez <em>Excel</em> et la finance avec des outils concrets</h1>
+    <p>Des fichiers Excel prêts à l'emploi avec cours intégrés — conçus pour apprendre en faisant, pas en lisant.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('produits').scrollIntoView({behavior:'smooth'})">Découvrir les fichiers</button>
+      <button class="btn-secondary" onclick="document.getElementById('avantages').scrollIntoView({behavior:'smooth'})">Comment ça marche ?</button>
+    </div>
+  </div>
+  <div class="hero-visual fade-up" style="transition-delay: 0.15s;">
+    <div class="hero-card">
+      <div class="hero-card-top">
+        <div class="excel-icon">X</div>
+        <div>
+          <h3>Tableau de bord financier</h3>
+          <div class="sub">Inclus dans le Pack Finance</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Revenus</span><span>87%</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:87%; background:#1D9E75;"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Charges</span><span>54%</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:54%; background:#378ADD;"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>Bénéfice net</span><span>33%</span></div>
+        <div class="bar-bg"><div class="bar-fill" style="width:33%; background:#EF9F27;"></div></div>
+      </div>
+      <div class="badge-row">
+        <span class="badge">Tableaux croisés</span>
+        <span class="badge">Macros VBA</span>
+        <span class="badge">Graphiques</span>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-num">12</div><div class="stat-label">fichiers</div></div>
+        <div class="stat"><div class="stat-num">4.9</div><div class="stat-label">note</div></div>
+        <div class="stat"><div class="stat-num">850+</div><div class="stat-label">clients</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ PRODUITS ═══════════ -->
+<section id="produits">
+  <div class="section-wrap">
+    <div class="section-label fade-up">Catalogue</div>
+    <div class="section-title fade-up">Nos fichiers Excel avec cours</div>
+    <div class="section-sub fade-up">Chaque fichier inclut un cours structuré directement intégré. Téléchargez, ouvrez, apprenez.</div>
+
+    <div class="products-grid">
+
+      <!-- PRODUIT 1 — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card featured fade-up">
+        <span class="featured-pill pill-green">Populaire</span>
+        <div class="product-icon icon-green">📊</div>
+        <div class="product-title">Pack Finance Complète</div>
+        <div class="product-desc">Tableaux de bord, analyse de trésorerie, compte de résultat, bilan — avec cours intégrés à chaque onglet.</div>
+        <div class="product-footer">
+          <div><span class="price">29€</span><span class="price-old">49€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/fdgsvi" target="_blank" class="buy-btn buy-btn-green">Acheter →</a>
+        </div>
+      </div>
+
+      <!-- PRODUIT 2 — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card fade-up">
+        <div class="product-icon icon-blue">📈</div>
+        <div class="product-title">Maîtrise Excel — Niveau 1</div>
+        <div class="product-desc">Formules essentielles, mise en forme, tri et filtres. Idéal pour les débutants qui veulent progresser vite.</div>
+        <div class="product-footer">
+          <div><span class="price">15€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/tcaafy" target="_blank" class="buy-btn buy-btn-green">Acheter →</a>
+        </div>
+      </div>
+
+      <!-- PRODUIT 3 — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card fade-up">
+        <div class="product-icon icon-amber">💼</div>
+        <div class="product-title">Tableaux Croisés Dynamiques</div>
+        <div class="product-desc">Analyse de données avancée avec TCD, segments, chronologies et graphiques croisés dynamiques.</div>
+        <div class="product-footer">
+          <div><span class="price">19€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/xvjzca" target="_blank" class="buy-btn buy-btn-green">Acheter →</a>
+        </div>
+      </div>
+
+      <!-- PRODUIT 4 — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card fade-up">
+        <div class="product-icon icon-green">🏦</div>
+        <div class="product-title">Gestion Budgétaire</div>
+        <div class="product-desc">Suivez vos budgets mensuels, prévisions et écarts avec formules automatiques et cours détaillés.</div>
+        <div class="product-footer">
+          <div><span class="price">22€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/zmzbgq" target="_blank" class="buy-btn buy-btn-green">Acheter →</a>
+        </div>
+      </div>
+
+      <!-- PRODUIT 5 — REMPLACEZ LE LIEN GUMROAD -->
+      <div class="product-card fade-up">
+        <div class="product-icon icon-blue">⚡</div>
+        <div class="product-title">Macros & Automatisation VBA</div>
+        <div class="product-desc">Introduction au VBA, enregistreur de macros, automatisation des tâches répétitives avec exemples pratiques.</div>
+        <div class="product-footer">
+          <div><span class="price">25€</span></div>
+          <!-- ✏️ REMPLACEZ LE LIEN CI-DESSOUS PAR VOTRE VRAI LIEN GUMROAD -->
+          <a href="https://remyclaveau.gumroad.com/l/blekhi" target="_blank" class="buy-btn buy-btn-green">Acheter →</a>
+        </div>
+      </div>
+
+      <!-- PRODUIT 6 BUNDLE -->
+      <div class="product-card featured-blue fade-up">
+        <span class="featured-pill pill-blue">Bundle</span>
+        <div class="product-icon icon-blue">🎯</div>
+        <div class="product-title">Pack Intégral LUDIS</div>
+        <div class="product-desc">Accès à tous nos fichiers actuels et futurs. La solution complète pour progresser en Excel et en finance.</div>
+        <div class="product-footer">
+          <div><span class="price">69€</span><span class="price-old">110€</span></div>
+          <a href="https://remyclaveau.gumroad.com/l/flkweu" target="_blank" class="buy-btn buy-btn-blue">Acheter →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ DÉFIS EN COURS ═══════════ -->
+<section id="defis" class="challenges-section">
+  <div class="section-wrap">
+    <div class="section-label fade-up">🔥 Limité dans le temps</div>
+    <div class="section-title fade-up">Défis en cours</div>
+    <div class="section-sub fade-up">Achetez le fichier, complétez les exercices avant la fin du mois et envoyez votre score — les meilleurs gagnent des badges exclusifs !</div>
+
+    <div class="challenges-grid">
+
+      <!-- DÉFI 1 — Finance -->
+      <div class="challenge-card c-green fade-up">
+        <div class="challenge-top">
+          <span class="challenge-file-pill cpill-green">📊 Pack Finance</span>
+          <span class="challenge-live-dot"><span class="live-pulse"></span> En cours</span>
+        </div>
+        <div class="challenge-title">Maître du Tableau de Bord</div>
+        <div class="challenge-desc">Complétez les 4 onglets du pack Finance avec un score parfait. Analysez les données, construisez le bilan et prouvez votre maîtrise.</div>
+        <div class="challenge-badges">
+          <span class="challenge-badge"><span class="badge-emoji">🏆</span> Top Score Finance</span>
+          <span class="challenge-badge"><span class="badge-emoji">✅</span> Parfait</span>
+          <span class="challenge-badge"><span class="badge-emoji">🌟</span> Élite</span>
+        </div>
+        <div class="challenge-countdown">
+          <div>
+            <div class="countdown-label">Temps restant</div>
+            <div class="countdown-timer" id="countdown-finance">-- j -- h -- min</div>
+          </div>
+          <div style="font-size:28px">📊</div>
+        </div>
+        <a href="https://remyclaveau.gumroad.com/l/fdgsvi" target="_blank" class="challenge-cta">Relever le défi →</a>
+      </div>
+
+      <!-- DÉFI 2 — TCD -->
+      <div class="challenge-card c-blue fade-up">
+        <div class="challenge-top">
+          <span class="challenge-file-pill cpill-blue">💼 TCD</span>
+          <span class="challenge-live-dot"><span class="live-pulse"></span> En cours</span>
+        </div>
+        <div class="challenge-title">Champion des Pivots</div>
+        <div class="challenge-desc">Créez des tableaux croisés dynamiques avancés avec segments et chronologies. Le plus haut score du mois remporte le badge légendaire.</div>
+        <div class="challenge-badges">
+          <span class="challenge-badge"><span class="badge-emoji">💼</span> Maître TCD</span>
+          <span class="challenge-badge"><span class="badge-emoji">⚡</span> Rapide</span>
+        </div>
+        <div class="challenge-countdown">
+          <div>
+            <div class="countdown-label">Temps restant</div>
+            <div class="countdown-timer" id="countdown-tcd">-- j -- h -- min</div>
+          </div>
+          <div style="font-size:28px">💼</div>
+        </div>
+        <a href="https://remyclaveau.gumroad.com/l/xvjzca" target="_blank" class="challenge-cta">Relever le défi →</a>
+      </div>
+
+      <!-- DÉFI 3 — VBA -->
+      <div class="challenge-card c-amber fade-up">
+        <div class="challenge-top">
+          <span class="challenge-file-pill cpill-amber">⚡ VBA</span>
+          <span class="challenge-live-dot"><span class="live-pulse"></span> En cours</span>
+        </div>
+        <div class="challenge-title">Architecte des Macros</div>
+        <div class="challenge-desc">Automatisez les tâches du fichier VBA et obtenez le score maximum. Les 3 premiers gagnent un badge spécial VBA Master.</div>
+        <div class="challenge-badges">
+          <span class="challenge-badge"><span class="badge-emoji">🤖</span> VBA Master</span>
+          <span class="challenge-badge"><span class="badge-emoji">🥇</span> Top 3</span>
+        </div>
+        <div class="challenge-countdown">
+          <div>
+            <div class="countdown-label">Temps restant</div>
+            <div class="countdown-timer" id="countdown-vba">-- j -- h -- min</div>
+          </div>
+          <div style="font-size:28px">⚡</div>
+        </div>
+        <a href="https://remyclaveau.gumroad.com/l/blekhi" target="_blank" class="challenge-cta">Relever le défi →</a>
+      </div>
+
+    </div>
+
+    <div style="margin-top:28px;background:var(--accent-light);border-radius:var(--radius);padding:18px 24px;display:flex;align-items:center;gap:16px;" class="fade-up">
+      <div style="font-size:26px">📩</div>
+      <div>
+        <div style="font-size:14px;font-weight:500;color:var(--accent-dark);margin-bottom:2px">Comment participer ?</div>
+        <div style="font-size:13px;color:var(--accent-dark);opacity:0.85">Achetez le fichier, complétez tous les exercices, puis envoyez votre capture d'écran de score à <a href="mailto:remyclaveau@gmail.com" style="color:var(--accent-dark);font-weight:600;text-decoration:underline">remyclaveau@gmail.com</a> avant le dernier jour du mois. Votre badge apparaîtra dans le classement sous 24h.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CLASSEMENT ═══════════ -->
+<section id="classement" class="ranking-section">
+  <div class="section-wrap">
+    <div class="section-label fade-up">Communauté</div>
+    <div class="section-title fade-up">Hall of Fame — Meilleurs XP</div>
+    <div class="section-sub fade-up">Les utilisateurs qui ont accumulé le plus d'XP dans nos fichiers Excel. À vous de les dépasser !</div>
+
+    <!-- Ligues -->
+    <div class="fade-up" style="margin-bottom:36px;">
+      <div style="font-size:13px;font-weight:500;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.08em;">Système de ligues</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <div style="display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:7px 16px;">
+          <span style="font-size:16px;">🥉</span><span style="font-size:13px;font-weight:600;color:#A0633A;">Bronze</span><span style="font-size:11px;color:var(--muted);">0 – 999 XP</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:7px 16px;">
+          <span style="font-size:16px;">🥈</span><span style="font-size:13px;font-weight:600;color:#8A8A8A;">Silver</span><span style="font-size:11px;color:var(--muted);">1 000 – 1 999 XP</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:100px;padding:7px 16px;">
+          <span style="font-size:16px;">🥇</span><span style="font-size:13px;font-weight:600;color:#C89A2A;">Gold</span><span style="font-size:11px;color:var(--muted);">2 000 – 2 999 XP</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid #7BC8FF44;border-radius:100px;padding:7px 16px;">
+          <span style="font-size:16px;">💎</span><span style="font-size:13px;font-weight:600;color:#378ADD;">Diamond</span><span style="font-size:11px;color:var(--muted);">3 000 – 4 999 XP</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid #1D9E7544;border-radius:100px;padding:7px 16px;">
+          <span style="font-size:16px;">💚</span><span style="font-size:13px;font-weight:600;color:#1D9E75;">Emerald</span><span style="font-size:11px;color:var(--muted);">5 000+ XP</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filtre par fichier -->
+    <div class="fade-up" style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;" id="lb-filters">
+      <button class="lb-filter active" onclick="filterLB(this,'all')">Tous les fichiers</button>
+      <button class="lb-filter" onclick="filterLB(this,'finance')">📊 Finance</button>
+      <button class="lb-filter" onclick="filterLB(this,'excel1')">📈 Excel N.1</button>
+      <button class="lb-filter" onclick="filterLB(this,'tcd')">💼 TCD</button>
+      <button class="lb-filter" onclick="filterLB(this,'budget')">🏦 Budget</button>
+      <button class="lb-filter" onclick="filterLB(this,'vba')">⚡ VBA</button>
+    </div>
+
+    <div class="fade-up" id="lb-table-wrap">
+      <table class="ranking-table" id="lb-table">
+        <thead>
+          <tr>
+            <th style="width:52px;text-align:center">#</th>
+            <th>Utilisateur</th>
+            <th>Fichier</th>
+            <th>XP</th>
+            <th style="text-align:center">Badges</th>
+            <th style="text-align:right">Temps</th>
+          </tr>
+        </thead>
+        <tbody id="lb-body"></tbody>
+      </table>
+    </div>
+
+    <!-- Message si aucun résultat -->
+    <div id="lb-empty" style="display:none;text-align:center;padding:48px 0;">
+      <div style="font-size:40px;margin-bottom:12px">🏆</div>
+      <div style="font-size:16px;font-weight:500;color:var(--text);margin-bottom:6px">Pas encore de scores ici</div>
+      <div style="font-size:14px;color:var(--muted)">Soyez le premier à figurer dans ce classement !</div>
+    </div>
+
+    <div style="margin-top:32px;background:var(--accent-light);border-radius:var(--radius);padding:20px 24px;display:flex;align-items:center;gap:16px;" class="fade-up">
+      <div style="font-size:28px">🎯</div>
+      <div>
+        <div style="font-size:14px;font-weight:500;color:var(--accent-dark);margin-bottom:3px">Envoyez votre score !</div>
+        <div style="font-size:13px;color:var(--accent-dark);opacity:0.8">Achetez un fichier, complétez les exercices et envoyez votre score à <a href="mailto:remyclaveau@gmail.com" style="color:var(--accent-dark);font-weight:500;text-decoration:underline">remyclaveau@gmail.com</a> — on l'ajoute au classement sous 24h.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ AVANTAGES ═══════════ -->
+<section id="avantages" class="features-bg">
+  <div class="section-wrap">
+    <div class="section-label fade-up">Pourquoi LUDIS</div>
+    <div class="section-title fade-up">Apprendre en faisant, pas en regardant</div>
+    <div class="section-sub fade-up">Nos fichiers ne sont pas des modèles vides — ce sont des cours vivants que vous manipulez directement.</div>
+    <div class="features-grid">
+      <div class="feature fade-up">
+        <div class="feature-icon">📥</div>
+        <h4>Téléchargement instantané</h4>
+        <p>Après paiement, votre fichier arrive immédiatement par email. Aucune attente, aucune inscription supplémentaire.</p>
+      </div>
+      <div class="feature fade-up">
+        <div class="feature-icon">🎓</div>
+        <h4>Cours intégrés</h4>
+        <p>Chaque onglet contient des explications pédagogiques claires, directement dans le fichier Excel.</p>
+      </div>
+      <div class="feature fade-up">
+        <div class="feature-icon">🔄</div>
+        <h4>Mises à jour incluses</h4>
+        <p>Vous recevez gratuitement toutes les améliorations futures du fichier acheté, à vie.</p>
+      </div>
+      <div class="feature fade-up">
+        <div class="feature-icon">💬</div>
+        <h4>Support inclus</h4>
+        <p>Des questions ? Réponse sous 24h par email pour vous aider à tirer le meilleur de vos fichiers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ AVIS ═══════════ -->
+<section id="avis">
+  <div class="section-wrap">
+    <div class="section-label fade-up">Témoignages</div>
+    <div class="section-title fade-up">Ce qu'en disent nos clients</div>
+    <div class="section-sub fade-up">Plus de 850 personnes ont déjà utilisé nos fichiers pour progresser.</div>
+    <div class="reviews-grid">
+      <div class="review fade-up">
+        <div class="stars">★★★★★</div>
+        <div class="review-text">Le pack Finance est vraiment complet. J'ai pu créer le tableau de bord de mon entreprise en une après-midi grâce aux cours intégrés.</div>
+        <div class="reviewer">
+          <div class="avatar">SM</div>
+          <div><div class="reviewer-name">Sophie M.</div><div class="reviewer-role">Comptable indépendante</div></div>
+        </div>
+      </div>
+      <div class="review fade-up">
+        <div class="stars">★★★★★</div>
+        <div class="review-text">Enfin des fichiers Excel avec de vraies explications ! Le cours sur les tableaux croisés m'a sauvé des heures de recherche.</div>
+        <div class="reviewer">
+          <div class="avatar">TK</div>
+          <div><div class="reviewer-name">Thomas K.</div><div class="reviewer-role">Étudiant en BTS</div></div>
+        </div>
+      </div>
+      <div class="review fade-up">
+        <div class="stars">★★★★☆</div>
+        <div class="review-text">Très bon rapport qualité-prix. Le pack intégral vaut vraiment le coup, j'utilise les fichiers au quotidien dans mon cabinet.</div>
+        <div class="reviewer">
+          <div class="avatar">AL</div>
+          <div><div class="reviewer-name">Amina L.</div><div class="reviewer-role">Gestionnaire RH</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CTA ═══════════ -->
+<div class="cta-block fade-up">
+  <h2>Prêt à progresser avec Excel ?</h2>
+  <p>Rejoignez plus de 850 apprenants qui ont déjà transformé leur utilisation d'Excel.</p>
+  <button class="btn-white" onclick="document.getElementById('produits').scrollIntoView({behavior:'smooth'})">Voir tous les fichiers →</button>
+</div>
+
+<!-- ═══════════ CONTACT ═══════════ -->
+<section id="contact">
+  <div class="section-wrap" style="padding-top: 20px; padding-bottom: 60px;">
+    <div class="section-label fade-up">Contact</div>
+    <div class="section-title fade-up" style="margin-bottom: 8px;">Une question ?</div>
+    <!-- ✏️ REMPLACEZ PAR VOTRE VRAIE ADRESSE EMAIL -->
+    <p class="fade-up" style="color: var(--muted); font-size: 16px;">Écrivez-nous à <a href="mailto:remyclaveau@gmail.com" style="color: var(--accent); font-weight: 500;">remyclaveau@gmail.com</a> — réponse sous 24h.</p>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="logo" style="font-size: 20px;">LUD<span style="color: var(--accent);">IS</span></div>
+  <div class="footer-links">
+    <a href="#" onclick="openML(event)">Mentions légales</a>
+    <a href="#" onclick="openCGV(event)">CGV</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div>© 2025 LUDIS. Tous droits réservés.</div>
+</footer>
+
+<!-- ═══════════ MODALE MENTIONS LÉGALES ═══════════ -->
+<div class="modal-overlay-ml" id="ml-overlay" onclick="closeMLOutside(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="ml-title">
+    <div class="modal-header">
+      <div>
+        <h2 id="ml-title">Mentions Légales</h2>
+        <p>LUDIS — Conformément à la loi n° 2004-575 du 21 juin 2004</p>
+      </div>
+      <button class="modal-close" onclick="closeML()" aria-label="Fermer">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <h3>1. Éditeur du site</h3>
+      <p>Le présent site est édité par :</p>
+      <p>
+        <strong>Rémy Claveau &amp; Johan ROTTIER</strong><br>
+        Activité : Vente de ressources pédagogiques numériques<br>
+        Adresse : <strong>X</strong><br>
+        SIRET : <strong>X</strong><br>
+        Email : <a href="mailto:remyclaveau@gmail.com" style="color:var(--accent)">remyclaveau@gmail.com</a>
+      </p>
+
+      <h3>2. Directeur de la publication</h3>
+      <p><strong>Johan ROTTIER</strong>, en qualité de directeur de la publication du site LUDIS.</p>
+
+      <h3>3. Hébergement</h3>
+      <p>
+        Ce site est hébergé par :<br>
+        Nom : <strong>X</strong><br>
+        Adresse : <strong>X</strong><br>
+        Site web : <strong>X</strong>
+      </p>
+
+      <h3>4. Propriété intellectuelle</h3>
+      <p>L'ensemble des contenus présents sur ce site (textes, images, graphismes, logos, fichiers téléchargeables, etc.) est la propriété exclusive de <strong>LUDIS / Rémy Claveau</strong>, sauf mentions contraires.</p>
+      <p>Toute reproduction, représentation, modification, publication, adaptation ou exploitation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé, est interdite sans l'autorisation écrite préalable de LUDIS.</p>
+      <p>Toute exploitation non autorisée constitue une contrefaçon et est susceptible d'engager la responsabilité civile et pénale de son auteur.</p>
+
+      <h3>5. Données personnelles (RGPD)</h3>
+      <p>Dans le cadre de l'utilisation du site et du traitement des commandes, LUDIS est susceptible de collecter les données personnelles suivantes : nom, prénom, adresse email.</p>
+      <p>Ces données sont collectées et traitées dans le but unique d'assurer la livraison des produits numériques achetés et de répondre aux demandes de support.</p>
+      <p>Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique et Libertés, vous disposez des droits suivants :</p>
+      <ul>
+        <li><strong>Droit d'accès</strong> : obtenir une copie de vos données personnelles ;</li>
+        <li><strong>Droit de rectification</strong> : corriger des données inexactes ;</li>
+        <li><strong>Droit à l'effacement</strong> : demander la suppression de vos données ;</li>
+        <li><strong>Droit d'opposition</strong> : vous opposer au traitement de vos données ;</li>
+        <li><strong>Droit à la portabilité</strong> : recevoir vos données dans un format structuré.</li>
+      </ul>
+      <p>Pour exercer ces droits, contactez-nous à : <a href="mailto:remyclaveau@gmail.com" style="color:var(--accent)">remyclaveau@gmail.com</a></p>
+      <p>En cas de réclamation, vous pouvez également contacter la <strong>CNIL</strong> : <strong>www.cnil.fr</strong></p>
+
+      <h3>6. Cookies</h3>
+      <p>Ce site peut utiliser des cookies techniques nécessaires à son bon fonctionnement. Aucun cookie à des fins publicitaires ou de profilage n'est déposé sans votre consentement préalable.</p>
+      <p>La plateforme de paiement <strong>Gumroad</strong> peut déposer ses propres cookies lors du processus d'achat, soumis à sa propre politique de confidentialité disponible sur <strong>gumroad.com</strong>.</p>
+
+      <h3>7. Liens hypertextes</h3>
+      <p>Le site LUDIS peut contenir des liens vers des sites tiers. LUDIS n'exerce aucun contrôle sur ces sites et décline toute responsabilité quant à leur contenu ou leur politique de confidentialité.</p>
+
+      <h3>8. Limitation de responsabilité</h3>
+      <p>Les informations contenues sur ce site sont fournies à titre pédagogique. LUDIS s'efforce d'assurer l'exactitude des contenus mais ne peut garantir leur exhaustivité ou leur adéquation à des situations particulières. L'utilisateur est seul responsable de l'utilisation des ressources mises à disposition.</p>
+
+      <h3>9. Droit applicable</h3>
+      <p>Les présentes mentions légales sont soumises au <strong>droit français</strong>. Tout litige relatif à leur interprétation ou à leur exécution relève de la compétence des tribunaux français.</p>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODALE CGV ═══════════ -->
+<div class="modal-overlay" id="cgv-overlay" onclick="closeCGVOutside(event)">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="cgv-title">
+    <div class="modal-header">
+      <div>
+        <h2 id="cgv-title">Conditions Générales de Vente</h2>
+        <p>LUDIS — En vigueur au 1er janvier 2025</p>
+      </div>
+      <button class="modal-close" onclick="closeCGV()" aria-label="Fermer">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <h3>Article 1 — Identification du vendeur</h3>
+      <p>Les présentes Conditions Générales de Vente (CGV) régissent les relations contractuelles entre <strong>LUDIS</strong>, ci-après « le Vendeur », accessible à l'adresse <strong>remyclaveau@gmail.com</strong>, et toute personne physique ou morale effectuant un achat sur le site, ci-après « l'Acheteur ».</p>
+
+      <h3>Article 2 — Objet</h3>
+      <p>Les présentes CGV ont pour objet de définir les droits et obligations des parties dans le cadre de la vente en ligne de produits numériques (fichiers Excel, cours intégrés et ressources pédagogiques) proposés par LUDIS.</p>
+
+      <h3>Article 3 — Produits</h3>
+      <p>Les produits vendus sont des <strong>fichiers numériques à téléchargement immédiat</strong> (format .xlsx ou .zip). Chaque produit est décrit sur la page de vente avec ses caractéristiques essentielles. Les photographies et visuels sont donnés à titre illustratif.</p>
+      <p>LUDIS se réserve le droit de modifier le contenu de ses produits à tout moment, notamment pour les améliorer. Les mises à jour du produit acheté sont transmises gratuitement à l'Acheteur.</p>
+
+      <h3>Article 4 — Prix</h3>
+      <p>Les prix sont indiqués en <strong>euros toutes taxes comprises (TTC)</strong>. LUDIS se réserve le droit de modifier ses prix à tout moment. Le prix applicable est celui en vigueur au moment de la validation de la commande.</p>
+
+      <h3>Article 5 — Commande et paiement</h3>
+      <p>La commande est réalisée via la plateforme <strong>Gumroad</strong>, qui gère la transaction de manière sécurisée. L'Acheteur accepte les conditions d'utilisation de Gumroad lors du paiement.</p>
+      <p>Les moyens de paiement acceptés sont ceux proposés par Gumroad (carte bancaire, PayPal, etc.). La commande est définitive après confirmation du paiement.</p>
+
+      <h3>Article 6 — Livraison</h3>
+      <p>Les produits étant <strong>numériques</strong>, leur livraison est effectuée par voie électronique, immédiatement après validation du paiement. Un lien de téléchargement est envoyé à l'adresse email fournie par l'Acheteur. LUDIS ne peut être tenu responsable d'un délai de réception lié à un problème d'accès à la messagerie de l'Acheteur.</p>
+
+      <h3>Article 7 — Droit de rétractation</h3>
+      <p>Conformément à l'article L221-28 du Code de la consommation, <strong>le droit de rétractation ne peut être exercé</strong> pour les contenus numériques fournis sur un support immatériel dont l'exécution a commencé avec l'accord préalable de l'Acheteur, qui a renoncé expressément à son droit de rétractation.</p>
+      <p>En procédant au téléchargement ou à l'accès au fichier numérique, l'Acheteur reconnaît avoir été informé de cette exception et y consent expressément.</p>
+      <p>Cependant, si l'Acheteur rencontre un problème technique majeur empêchant l'utilisation du fichier, LUDIS s'engage à étudier la demande et proposer une solution amiable dans un délai de 7 jours.</p>
+
+      <h3>Article 8 — Propriété intellectuelle</h3>
+      <p>L'ensemble des fichiers, contenus pédagogiques, textes, graphiques et documents fournis par LUDIS sont protégés par le droit de la propriété intellectuelle. L'Acheteur bénéficie d'une <strong>licence personnelle, non commerciale et non cessible</strong> d'utilisation du fichier acheté.</p>
+      <p>Il est strictement interdit de :</p>
+      <ul>
+        <li>Reproduire, copier ou distribuer les fichiers à des tiers, à titre gratuit ou onéreux ;</li>
+        <li>Revendre ou sous-licencier les produits LUDIS ;</li>
+        <li>Utiliser les contenus à des fins commerciales sans autorisation écrite préalable de LUDIS.</li>
+      </ul>
+      <p>Tout manquement à ces obligations expose l'Acheteur à des poursuites judiciaires.</p>
+
+      <h3>Article 9 — Responsabilité</h3>
+      <p>Les fichiers sont fournis à titre pédagogique. LUDIS ne saurait être tenu responsable des décisions financières, professionnelles ou personnelles prises sur la base des contenus fournis. L'Acheteur est seul responsable de l'utilisation qu'il fait des outils mis à sa disposition.</p>
+      <p>LUDIS ne peut être tenu responsable des dommages indirects, pertes de données ou interruptions d'activité résultant de l'utilisation des fichiers.</p>
+
+      <h3>Article 10 — Support et service après-vente</h3>
+      <p>LUDIS s'engage à répondre aux questions de l'Acheteur relatives à l'utilisation des fichiers achetés dans un délai de <strong>24 heures ouvrées</strong>, via l'adresse <strong>remyclaveau@gmail.com</strong>.</p>
+
+      <h3>Article 11 — Données personnelles</h3>
+      <p>Les données personnelles collectées lors de la commande (nom, email) sont utilisées uniquement dans le cadre de la relation commerciale et de l'envoi du fichier acheté. Elles ne sont pas transmises à des tiers à des fins commerciales. Conformément au RGPD, l'Acheteur dispose d'un droit d'accès, de rectification et de suppression de ses données en contactant <strong>remyclaveau@gmail.com</strong>.</p>
+
+      <h3>Article 12 — Litiges et droit applicable</h3>
+      <p>Les présentes CGV sont soumises au <strong>droit français</strong>. En cas de litige, l'Acheteur et LUDIS s'engagent à rechercher une solution amiable. À défaut, le litige sera soumis aux tribunaux compétents du ressort du siège de LUDIS.</p>
+      <p>L'Acheteur a également la possibilité de recourir à la plateforme européenne de règlement en ligne des litiges : <strong>ec.europa.eu/consumers/odr</strong>.</p>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── DARK MODE ──
+  function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    document.getElementById('theme-icon').textContent  = isDark ? '🌙' : '☀️';
+    document.getElementById('theme-label').textContent = isDark ? 'Dark' : 'Light';
+    localStorage.setItem('ludis-theme', isDark ? 'light' : 'dark');
+  }
+  // Restore saved theme
+  (function() {
+    const saved = localStorage.getItem('ludis-theme');
+    if (saved === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      document.getElementById('theme-icon').textContent  = '☀️';
+      document.getElementById('theme-label').textContent = 'Light';
+    }
+  })();
+
+  // ── COUNTDOWN UNTIL END OF MONTH ──
+  function getEndOfMonth() {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0) - 1;
+  }
+  function formatCountdown(ms) {
+    if (ms <= 0) return 'Terminé';
+    const s = Math.floor(ms / 1000);
+    const d = Math.floor(s / 86400);
+    const h = Math.floor((s % 86400) / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    return `${d}j ${String(h).padStart(2,'0')}h ${String(m).padStart(2,'0')}min`;
+  }
+  function updateCountdowns() {
+    const remaining = getEndOfMonth() - Date.now();
+    const str = formatCountdown(remaining);
+    document.getElementById('countdown-finance').textContent = str;
+    document.getElementById('countdown-tcd').textContent     = str;
+    document.getElementById('countdown-vba').textContent     = str;
+  }
+  updateCountdowns();
+  setInterval(updateCountdowns, 30000);
+
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── LEADERBOARD DATA ──
+  const players = [
+    { name: 'Sophie M.',   initials: 'SM', color: '#1D9E75', file: 'finance', fileLabel: '📊 Finance',  xp: 2940, time: '3h 36min', badges: ['lbb-gold','lbb-perfect'], badgeLabels: ['🥇 Top XP','✅ Parfait'],    joined: 'Mars 2025' },
+    { name: 'Thomas K.',   initials: 'TK', color: '#378ADD', file: 'vba',     fileLabel: '⚡ VBA',       xp: 2880, time: '2h 54min', badges: ['lbb-speed','lbb-gold'],   badgeLabels: ['⚡ Rapide','🏆 Top 3'],       joined: 'Fév. 2025' },
+    { name: 'Amina L.',    initials: 'AL', color: '#9B59B6', file: 'tcd',     fileLabel: '💼 TCD',       xp: 2820, time: '3h 15min', badges: ['lbb-perfect'],            badgeLabels: ['✅ Parfait'],                  joined: 'Janv. 2025' },
+    { name: 'Lucas D.',    initials: 'LD', color: '#E74C3C', file: 'budget',  fileLabel: '🏦 Budget',    xp: 2730, time: '4h 00min', badges: ['lbb-first'],              badgeLabels: ['🌟 Premier inscrit'],          joined: 'Avril 2025' },
+    { name: 'Camille R.',  initials: 'CR', color: '#F39C12', file: 'finance', fileLabel: '📊 Finance',   xp: 2670, time: '4h 45min', badges: ['lbb-speed'],              badgeLabels: ['⚡ Rapide'],                   joined: 'Mars 2025' },
+    { name: 'Mehdi B.',    initials: 'MB', color: '#1D9E75', file: 'excel1',  fileLabel: '📈 Excel N.1', xp: 2610, time: '2h 15min', badges: ['lbb-speed','lbb-perfect'],badgeLabels: ['⚡ Rapide','✅ Parfait'],       joined: 'Fév. 2025' },
+    { name: 'Julie F.',    initials: 'JF', color: '#E91E8C', file: 'vba',     fileLabel: '⚡ VBA',       xp: 2550, time: '5h 24min', badges: ['lbb-gold'],               badgeLabels: ['🏆 Top 3'],                    joined: 'Janv. 2025' },
+    { name: 'Nicolas P.',  initials: 'NP', color: '#378ADD', file: 'tcd',     fileLabel: '💼 TCD',       xp: 2490, time: '6h 06min', badges: [],                         badgeLabels: [],                              joined: 'Avril 2025' },
+    { name: 'Sarah G.',    initials: 'SG', color: '#9B59B6', file: 'budget',  fileLabel: '🏦 Budget',    xp: 2430, time: '5h 45min', badges: [],                         badgeLabels: [],                              joined: 'Mars 2025' },
+    { name: 'Antoine V.',  initials: 'AV', color: '#E74C3C', file: 'excel1',  fileLabel: '📈 Excel N.1', xp: 2340, time: '3h 30min', badges: ['lbb-first'],              badgeLabels: ['🌟 Premier inscrit'],          joined: 'Fév. 2025' },
+  ];
+
+  const medals = ['🥇','🥈','🥉'];
+  const topClass = ['top1','top2','top3'];
+  const scoreColors = ['#C89A2A','#8A8A8A','#A0633A','#1D9E75','#1D9E75','#1D9E75','#6B6B66','#6B6B66','#6B6B66','#6B6B66'];
+
+  function renderLB(filter) {
+    const body = document.getElementById('lb-body');
+    const empty = document.getElementById('lb-empty');
+    const tableWrap = document.getElementById('lb-table-wrap');
+    const data = filter === 'all' ? players : players.filter(p => p.file === filter);
+    const sorted = [...data].sort((a,b) => b.xp - a.xp);
+    const maxXP = sorted.length ? sorted[0].xp : 3000;
+
+    if (sorted.length === 0) {
+      tableWrap.style.display = 'none';
+      empty.style.display = 'block';
+      return;
+    }
+    tableWrap.style.display = 'block';
+    empty.style.display = 'none';
+
+    body.innerHTML = sorted.map((p, i) => {
+      const medal = i < 3 ? medals[i] : (i + 1);
+      const tc = i < 3 ? topClass[i] : '';
+      const sc = scoreColors[i] || '#6B6B66';
+      const pct = Math.round((p.xp / maxXP) * 100);
+      const badgesHtml = p.badges.map((cls,j) =>
+        `<span class="lb-badge ${cls}">${p.badgeLabels[j]}</span>`
+      ).join('');
+      return `<tr class="${tc}">
+        <td class="rank-pos">${medal}</td>
+        <td>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="lb-avatar" style="background:${p.color}">${p.initials}</div>
+            <div>
+              <div class="lb-name">${p.name}</div>
+              <div class="lb-joined">Inscrit ${p.joined}</div>
+            </div>
+          </div>
+        </td>
+        <td><span class="lb-file-pill">${p.fileLabel}</span></td>
+        <td>
+          <div class="lb-score" style="color:${sc}">${p.xp.toLocaleString('fr-FR')}<span style="font-size:12px;font-weight:400;color:var(--muted)"> XP</span></div>
+          <div class="lb-score-bar"><div class="lb-bar-bg"><div class="lb-bar-fill" style="width:${pct}%;background:${sc}"></div></div></div>
+        </td>
+        <td style="text-align:center">${badgesHtml || '<span style="color:var(--muted);font-size:12px">—</span>'}</td>
+        <td class="lb-time">${p.time}</td>
+      </tr>`;
+    }).join('');
+  }
+
+  function filterLB(btn, filter) {
+    document.querySelectorAll('.lb-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderLB(filter);
+  }
+
+  renderLB('all');
+
+  // ── MENTIONS LÉGALES MODAL ──
+  function openML(e) {
+    if (e) e.preventDefault();
+    document.getElementById('ml-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeML() {
+    document.getElementById('ml-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeMLOutside(e) {
+    if (e.target === document.getElementById('ml-overlay')) closeML();
+  }
+
+  // ── CGV MODAL ──
+  function openCGV(e) {
+    if (e) e.preventDefault();
+    document.getElementById('cgv-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeCGV() {
+    document.getElementById('cgv-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeCGVOutside(e) {
+    if (e.target === document.getElementById('cgv-overlay')) closeCGV();
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeCGV(); closeML(); } });
+</script>
+
+</body>
+</html>
